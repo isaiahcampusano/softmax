@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="An interactive visual explanation of how softmax turns logits into weights for a weighted average."
+    >
+    <meta name="theme-color" content="#073b4c">
+    <meta property="og:title" content="Softmax & weighted averages">
+    <meta
+      property="og:description"
+      content="Change the logits and watch softmax reshape a weighted average in real time."
+    >
+    <meta
+      property="og:image"
+      content="https://isaiahcampusano.github.io/softmax/assets/softmax_weighted_average.png"
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://isaiahcampusano.github.io/softmax/">
+    <title>Softmax & weighted averages</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to the explainer</a>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Softmax Lab home">
+        <span class="brand-mark" aria-hidden="true">S</span>
+        <span>Softmax Lab</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#mechanism">How it works</a>
+        <a href="#try-it">Try it</a>
+        <a
+          class="nav-github"
+          href="https://github.com/isaiahcampusano/softmax"
+          target="_blank"
+          rel="noreferrer"
+        >
+          View code <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero section-shell" id="top" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> Interactive visual explainer</p>
+          <h1 id="hero-title">How softmax creates a weighted average.</h1>
+        </div>
+
+        <div class="outcome-card" aria-label="Current weighted average result">
+          <div class="outcome-values" aria-label="Values being averaged">
+            <span data-value-chip="0">10</span>
+            <span data-value-chip="1">20</span>
+            <span data-value-chip="2">30</span>
+          </div>
+          <span class="outcome-arrow" aria-hidden="true">→</span>
+          <div class="outcome-result">
+            <span class="outcome-label">weighted average</span>
+            <strong data-result>25.75</strong>
+          </div>
+        </div>
+
+        <p class="hero-lede">
+          Three raw scores become three probabilities that decide how strongly
+          each value shapes the final result.
+        </p>
+
+        <div class="flow-card" aria-label="Softmax calculation flow">
+          <div class="flow-step">
+            <span class="flow-index">01</span>
+            <span class="flow-label">Raw logits</span>
+            <strong data-flow-logits>[1.0, 2.0, 3.0]</strong>
+          </div>
+          <div class="flow-connector" aria-hidden="true"><span></span></div>
+          <div class="flow-step">
+            <span class="flow-index">02</span>
+            <span class="flow-label">Softmax weights</span>
+            <strong data-flow-weights>[9.0%, 24.5%, 66.5%]</strong>
+          </div>
+          <div class="flow-connector" aria-hidden="true"><span></span></div>
+          <div class="flow-step flow-step-result">
+            <span class="flow-index">03</span>
+            <span class="flow-label">Weighted result</span>
+            <strong data-result>25.75</strong>
+          </div>
+        </div>
+
+        <div class="visual-card">
+          <div class="visual-heading">
+            <div>
+              <p class="overline">The visual story</p>
+              <h2>The strongest score earns the most influence.</h2>
+            </div>
+            <div class="sum-pill">
+              <span>Σ weights</span>
+              <strong data-weight-sum>1.0000</strong>
+            </div>
+          </div>
+
+          <div class="chart-grid">
+            <figure class="chart-panel" data-weight-chart>
+              <figcaption>
+                <span>Softmax weights</span>
+                <small>Each bar is a probability</small>
+              </figcaption>
+              <div class="vertical-chart" aria-hidden="true">
+                <div class="bar-column">
+                  <span class="bar-value" data-weight-label="0">9.0%</span>
+                  <div class="bar bar-one" data-weight-bar="0"></div>
+                  <span class="bar-name">Item 1</span>
+                </div>
+                <div class="bar-column">
+                  <span class="bar-value" data-weight-label="1">24.5%</span>
+                  <div class="bar bar-two" data-weight-bar="1"></div>
+                  <span class="bar-name">Item 2</span>
+                </div>
+                <div class="bar-column">
+                  <span class="bar-value" data-weight-label="2">66.5%</span>
+                  <div class="bar bar-three" data-weight-bar="2"></div>
+                  <span class="bar-name">Item 3</span>
+                </div>
+              </div>
+            </figure>
+
+            <figure class="chart-panel" data-contribution-chart>
+              <figcaption>
+                <span>Weighted contributions</span>
+                <small>Weight × value</small>
+              </figcaption>
+              <div class="vertical-chart" aria-hidden="true">
+                <div class="bar-column">
+                  <span class="bar-value" data-contribution-label="0">0.90</span>
+                  <div class="bar bar-one" data-contribution-bar="0"></div>
+                  <span class="bar-name">Item 1</span>
+                </div>
+                <div class="bar-column">
+                  <span class="bar-value" data-contribution-label="1">4.89</span>
+                  <div class="bar bar-two" data-contribution-bar="1"></div>
+                  <span class="bar-name">Item 2</span>
+                </div>
+                <div class="bar-column">
+                  <span class="bar-value" data-contribution-label="2">19.96</span>
+                  <div class="bar bar-three" data-contribution-bar="2"></div>
+                  <span class="bar-name">Item 3</span>
+                </div>
+              </div>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="mechanism section-shell" id="mechanism" aria-labelledby="mechanism-title">
+        <div class="section-heading">
+          <p class="eyebrow"><span></span> The mechanism</p>
+          <h2 id="mechanism-title">Three steps. One clear outcome.</h2>
+          <p>Softmax does not average the values itself. It creates the weights.</p>
+        </div>
+
+        <ol class="steps-list">
+          <li>
+            <span class="step-number">1</span>
+            <div>
+              <h3>Score each item</h3>
+              <p>Logits express relative importance. Higher means more influence.</p>
+              <code data-mechanism-logits>1.0&nbsp;&nbsp;2.0&nbsp;&nbsp;3.0</code>
+            </div>
+          </li>
+          <li>
+            <span class="step-number">2</span>
+            <div>
+              <h3>Normalize with softmax</h3>
+              <p>Exponentiate the scores, then divide each by their total.</p>
+              <div class="mini-weights" aria-hidden="true">
+                <span data-mini-weight="0"></span>
+                <span data-mini-weight="1"></span>
+                <span data-mini-weight="2"></span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span class="step-number">3</span>
+            <div>
+              <h3>Blend the values</h3>
+              <p>Multiply every value by its weight, then add the contributions.</p>
+              <code data-contribution-equation>0.90 + 4.89 + 19.96 = 25.75</code>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="demo-section" id="try-it" aria-labelledby="demo-title">
+        <div class="section-shell">
+          <div class="section-heading demo-heading">
+            <p class="eyebrow eyebrow-light"><span></span> Try it yourself</p>
+            <h2 id="demo-title">Move a score. Watch influence shift.</h2>
+            <p>
+              Raise a logit to give its value more say in the final average.
+              The probabilities always rebalance to sum to one.
+            </p>
+          </div>
+
+          <div class="demo-grid">
+            <div class="controls-card">
+              <div class="controls-heading">
+                <div>
+                  <span>Inputs</span>
+                  <small>Adjust any row</small>
+                </div>
+                <button class="reset-button" type="button" data-reset>Reset</button>
+              </div>
+
+              <div class="control-labels" aria-hidden="true">
+                <span>Item</span>
+                <span>Value</span>
+                <span>Logit</span>
+              </div>
+
+              <div class="control-row">
+                <span class="item-key"><i class="dot dot-one"></i>01</span>
+                <label>
+                  <span class="sr-only">Item 1 value</span>
+                  <input data-value-input="0" type="number" value="10" step="1">
+                </label>
+                <label class="range-wrap">
+                  <span class="sr-only">Item 1 logit</span>
+                  <input data-logit-input="0" type="range" min="-5" max="5" step="0.1" value="1">
+                  <output data-logit-output="0">1.0</output>
+                </label>
+              </div>
+
+              <div class="control-row">
+                <span class="item-key"><i class="dot dot-two"></i>02</span>
+                <label>
+                  <span class="sr-only">Item 2 value</span>
+                  <input data-value-input="1" type="number" value="20" step="1">
+                </label>
+                <label class="range-wrap">
+                  <span class="sr-only">Item 2 logit</span>
+                  <input data-logit-input="1" type="range" min="-5" max="5" step="0.1" value="2">
+                  <output data-logit-output="1">2.0</output>
+                </label>
+              </div>
+
+              <div class="control-row">
+                <span class="item-key"><i class="dot dot-three"></i>03</span>
+                <label>
+                  <span class="sr-only">Item 3 value</span>
+                  <input data-value-input="2" type="number" value="30" step="1">
+                </label>
+                <label class="range-wrap">
+                  <span class="sr-only">Item 3 logit</span>
+                  <input data-logit-input="2" type="range" min="-5" max="5" step="0.1" value="3">
+                  <output data-logit-output="2">3.0</output>
+                </label>
+              </div>
+            </div>
+
+            <div class="live-result-card" aria-live="polite">
+              <span class="live-label">Live weighted average</span>
+              <strong data-result>25.75</strong>
+              <div class="live-weight-list">
+                <div>
+                  <span><i class="dot dot-one"></i>Item 1</span>
+                  <b data-weight-label="0">9.0%</b>
+                  <i class="weight-track"><i data-weight-track="0"></i></i>
+                </div>
+                <div>
+                  <span><i class="dot dot-two"></i>Item 2</span>
+                  <b data-weight-label="1">24.5%</b>
+                  <i class="weight-track"><i data-weight-track="1"></i></i>
+                </div>
+                <div>
+                  <span><i class="dot dot-three"></i>Item 3</span>
+                  <b data-weight-label="2">66.5%</b>
+                  <i class="weight-track"><i data-weight-track="2"></i></i>
+                </div>
+              </div>
+              <p data-live-equation>
+                <span>10 × 0.090</span> + <span>20 × 0.245</span> +
+                <span>30 × 0.665</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="code-section section-shell" id="code" aria-labelledby="code-title">
+        <div class="section-heading">
+          <p class="eyebrow"><span></span> Use it</p>
+          <h2 id="code-title">The whole idea in five lines.</h2>
+          <p>The browser demo mirrors the same numerically stable Python implementation.</p>
+        </div>
+
+        <div class="code-card">
+          <div class="code-toolbar">
+            <span><i></i><i></i><i></i></span>
+            <span>example.py</span>
+            <button type="button" data-copy-code>Copy code</button>
+          </div>
+          <pre><code data-code-snippet><span class="code-name">values</span> = np.array([<span class="code-number">10.0</span>, <span class="code-number">20.0</span>, <span class="code-number">30.0</span>])
+<span class="code-name">logits</span> = np.array([<span class="code-number">1.0</span>, <span class="code-number">2.0</span>, <span class="code-number">3.0</span>])
+<span class="code-name">weights</span> = softmax(logits)
+<span class="code-name">weighted_average</span> = np.sum(weights * values)
+<span class="code-function">print</span>(weighted_average)  <span class="code-comment"># 25.75</span></code></pre>
+        </div>
+        <p class="production-note">
+          That’s it. For production scientific code, use
+          <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.softmax.html">scipy.special.softmax</a>.
+        </p>
+      </section>
+
+      <section class="details-section section-shell" aria-labelledby="details-title">
+        <details>
+          <summary>
+            <span>
+              <small>Go deeper</small>
+              <strong id="details-title">Installation, tests, and project structure</strong>
+            </span>
+            <i aria-hidden="true">+</i>
+          </summary>
+          <div class="details-grid">
+            <div>
+              <h3>Run locally</h3>
+              <pre><code>python -m pip install -r requirements.txt
+python example.py</code></pre>
+            </div>
+            <div>
+              <h3>Run the tests</h3>
+              <pre><code>python -m unittest discover -s tests -v</code></pre>
+              <p>Nine tests cover normalization, stability, axes, and invalid inputs.</p>
+            </div>
+            <div>
+              <h3>Project structure</h3>
+              <ul>
+                <li><code>softmax.py</code> — implementation</li>
+                <li><code>example.py</code> — chart example</li>
+                <li><code>tests/</code> — unit tests</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+      </section>
+    </main>
+
+    <footer>
+      <div class="section-shell">
+        <span>Softmax Lab</span>
+        <p>Scores in. Probabilities out. A clearer weighted result.</p>
+        <a href="https://github.com/isaiahcampusano/softmax">GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </footer>
+  </body>
+</html>

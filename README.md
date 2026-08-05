@@ -1,5 +1,7 @@
 # Softmax and weighted averages
 
+[**Explore the interactive visual demo →**](https://isaiahcampusano.github.io/softmax/)
+
 Softmax turns a vector of raw scores, or **logits**, into non-negative weights
 that sum to one. It also exaggerates differences: a slightly larger logit gets
 a disproportionately larger weight.
